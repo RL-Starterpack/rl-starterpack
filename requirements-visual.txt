@@ -1,0 +1,6 @@
+altair
+jupyter
+pandas
+pillow
+pyvirtualdisplay
+torchviz

@@ -1,0 +1,4 @@
+gym[box2d]
+numpy
+torch
+tqdm
