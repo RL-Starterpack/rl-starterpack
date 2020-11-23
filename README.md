@@ -10,7 +10,7 @@ brew install swig
 
 Install starter pack
 ```bash
-git clone git@github.com:AlexKuhnle/rl-starterpack.git
+git clone git@github.com:RL-Starterpack/rl-starterpack.git
 pip install -e rl-starterpack
 ```
 
