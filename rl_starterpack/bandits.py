@@ -140,10 +140,13 @@ def average_runs(
         param_set_string = ", ".join(f"{k}={v}" for k, v in param_set.items())
         observed_rewards = []
         for n in tqdm(range(repeats)):
-            testbed = MultiArmedBandit()
-            optimal_arm = testbed.mean_rewards.argmax()
+            multi_armed_bandit = MultiArmedBandit()
+            optimal_arm = multi_armed_bandit.mean_rewards.argmax()
             policy = partial(policy, **param_set)
-            experiment = BanditExperiment(testbed=testbed, policy=policy, **param_set)
+            experiment = BanditExperiment(
+                multi_armed_bandit=multi_armed_bandit, policy=policy, **param_set
+            )
+
             experiment.run(num_steps=timesteps)
             observed_rewards.append(experiment.observed_rewards)
             optimal_arm_draws.append(
