@@ -96,9 +96,10 @@ class BanditExperiment:
         reward_df = pd.DataFrame(
             {
                 "timestep": range(len(self.observed_rewards)),
-                "reward": self.observed_rewards,
+                "reward_raw": self.observed_rewards,
             }
         )
+        reward_df["reward"] = reward_df["reward_raw"].rolling(10).mean()
         if kind == "line":
             sns.lineplot(data=reward_df, x="timestep", y="reward", ax=ax[0])
         else:
@@ -160,22 +161,24 @@ def average_runs(
         rewards_df = pd.DataFrame(
             {
                 "timestep": np.repeat(range(timesteps), repeats),
-                "reward": observed_rewards,
+                "reward_raw": observed_rewards,
                 "params": param_set_string,
             }
         )
+        rewards_df["reward"] = rewards_df["reward_raw"].rolling(10).mean()
         results.append(rewards_df)
 
-    _, ax = plt.subplots(figsize=(15, 10), nrows=3, ncols=1)
+    _, ax = plt.subplots(figsize=(15, 7), nrows=2, ncols=1)
 
     results = pd.concat(results)
     sns.lineplot(data=results, x="timestep", y="reward", hue="params", ax=ax[0])
+
     mean_rewards = pd.DataFrame(
         mean_rewards, columns=["iteration", "mean reward", "params"]
     )
     sns.violinplot(data=mean_rewards, x="params", y="mean reward", ax=ax[1])
-    optimal_arm_draws = pd.DataFrame(
-        optimal_arm_draws, columns=["iteration", "optimal draws", "params"]
-    )
-    sns.violinplot(data=optimal_arm_draws, x="params", y="optimal draws", ax=ax[2])
+    # optimal_arm_draws = pd.DataFrame(
+    #     optimal_arm_draws, columns=["iteration", "optimal draws", "params"]
+    # )
+    # sns.violinplot(data=optimal_arm_draws, x="params", y="optimal draws", ax=ax[2])
     plt.show()
