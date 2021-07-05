@@ -3,4 +3,5 @@ jupyter
 pandas
 pillow
 pyvirtualdisplay
+seaborn
 torchviz

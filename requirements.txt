@@ -1,4 +1,6 @@
 gym[box2d]
 numpy
+scipy
+scikit-learn
 torch
 tqdm
