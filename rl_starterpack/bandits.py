@@ -100,23 +100,24 @@ class BanditExperiment:
             }
         )
         reward_df["reward"] = reward_df["reward_raw"].rolling(10).mean()
+
         if kind == "line":
             sns.lineplot(data=reward_df, x="timestep", y="reward", ax=ax[0])
         else:
             sns.scatterplot(
-                data=reward_df, x="timestep", y="reward", hue="reward", ax=ax[0]
+                data=reward_df, x="timestep", y="reward_raw", hue="reward_raw", ax=ax[0]
             )
 
         sns.violinplot(
             x=self.observed_draws, y=self.observed_rewards, width=0.5, ax=ax[1]
         )
-        ax[1].set_ylabel("reward")
+        ax[1].set_ylabel("observed reward")
         ax[1].set_xlabel("arm")
 
         arms, counts = np.unique(self.observed_draws, return_counts=True)
         sns.scatterplot(x=arms, y=counts, ax=ax[2])
         ax[2].set_ylim(0, len(self.observed_rewards))
-        ax[2].set_ylabel("draws")
+        ax[2].set_ylabel("number of draws")
         ax[2].set_xlabel("arm")
 
         plt.show()
